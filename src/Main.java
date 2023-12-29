@@ -1,8 +1,6 @@
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 
 public class Main {
 	public static void main(String[] args) {
@@ -16,8 +14,6 @@ public class Main {
 		while (true) {
 			System.out.print("명령어 > ");
 			String cmd = sc.nextLine().trim();
-			
-			LocalDateTime nowDate = LocalDateTime.now();
 
 			if (cmd.length() == 0) {
 				System.out.println("명령어를 입력하세요");
@@ -34,11 +30,9 @@ public class Main {
 				String title = sc.nextLine();
 				System.out.print("내용 : ");
 				String body = sc.nextLine();
-				LocalDateTime regDate = nowDate;
-				
-				Article article = new Article(id, title, body, regDate);
+
+				Article article = new Article(id, title, body);
 				articles.add(article);
-//				System.out.println(title + " / " + body);
 
 				System.out.printf("%d번 글이 생성 되었습니다.\n", id);
 				lastArticleId++;
@@ -53,29 +47,34 @@ public class Main {
 						System.out.printf("  %4d  /   %s  \n", article.getId(), article.getTitle());
 					}
 				}
-			} else if (cmd.startsWith("article detail ")) { // parse int, split();
-				
+
+			} else if (cmd.startsWith("article detail")) {
+
 				String[] cmdDiv = cmd.split(" ");
-				System.out.println(cmdDiv[0]);
-				System.out.println(cmdDiv[1]);
-				System.out.println(cmdDiv[2]);
-				
-				int id = Integer.parseInt(cmdDiv[2]);
-						
-				
-				System.out.println("==게시글 내용==");
-				if (articles.size() == 0) {
-					System.out.printf("%d번 게시글은 없습니다. \n", id);
-				} else { 
-					int i = articles.size()-1;
-					Article article = articles.get(i - 1);
-					
-					
-						System.out.println("  번호 : " + article.getId());
-						System.out.println("  날짜 : " + article.getRegDate());
-						System.out.println("  내용 : " + article.getBody());
-					
-					
+
+				int id = 0;
+
+				try {
+					id = Integer.parseInt(cmdDiv[2]);
+				} catch (Exception e) {
+					System.out.println("번호는 정수로 입력해");
+					continue;
+				}
+
+				boolean found = false;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+					if (article.getId() == id) {
+						found = true;
+						break;
+					}
+				}
+
+				if (found == false) {
+					System.out.printf("%d번 게시글은 없습니다\n", id);
+				} else {
+					System.out.println("너 찾는거 있더라");
 				}
 
 			} else {
@@ -93,14 +92,11 @@ class Article {
 	private int id;
 	private String title;
 	private String body;
-	private LocalDateTime regDate;
 
-
-	public Article(int id, String title, String body, LocalDateTime regDate) {
+	public Article(int id, String title, String body) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
-		this.regDate = regDate;
 	}
 
 	public int getId() {
@@ -125,12 +121,5 @@ class Article {
 
 	public void setBody(String body) {
 		this.body = body;
-	}
-	public LocalDateTime getRegDate() {
-		return regDate;
-	}
-
-	public void LocalDateTime(java.time.LocalDateTime regDate) {
-		this.regDate = regDate;
 	}
 }
