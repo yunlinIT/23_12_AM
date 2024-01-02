@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,23 +43,44 @@ public class Main {
 
 				System.out.printf("%d번 글이 생성 되었습니다.\n", id);
 				lastArticleId++;
-			} else if (cmd.equals("article list")) {
+			} else if (cmd.startsWith("article list")) {
 				System.out.println("==게시글 목록==");
 				if (articles.size() == 0) {
 					System.out.println("아무것도 없어");
-				} else {
-					System.out.println("  번호  /  제목    /   작성일     /   조회");
-					for (int i = articles.size() - 1; i >= 0; i--) {
-						Article article = articles.get(i);
-						if (Util.getNowDate_TimeStr().split(" ")[0].equals(article.getRegDate().split(" ")[0])) {
-							System.out.printf("  %4d  /   %s    /     %s   /   %d\n", article.getId(),
-									article.getTitle(), article.getRegDate().split(" ")[1], article.getHit());
-						} else {
-							System.out.printf("  %4d  /   %s    /     %s   /   %d\n", article.getId(),
-									article.getTitle(), article.getRegDate().split(" ")[0], article.getHit());
-						}
+					continue;
+				}
 
+				String searchKeyword = cmd.substring("article list".length()).trim();
+
+				List<Article> forPrintArticles = articles;
+
+				if (searchKeyword.length() > 0) {
+					System.out.println("검색어 : " + searchKeyword);
+					forPrintArticles = new ArrayList<>();
+
+					for (Article article : articles) {
+						if (article.getTitle().contains(searchKeyword)) {
+							forPrintArticles.add(article);
+						}
 					}
+					if (forPrintArticles.size() == 0) {
+						System.out.println("  번호  /  제목    /   작성일     /   조회");
+						System.out.println("검색 결과 없음");
+						continue;
+					}
+				}
+
+				System.out.println("  번호  /  제목    /   작성일     /   조회");
+				for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
+					Article article = forPrintArticles.get(i);
+					if (Util.getNowDate_TimeStr().split(" ")[0].equals(article.getRegDate().split(" ")[0])) {
+						System.out.printf("  %4d  /   %s    /     %s   /   %d\n", article.getId(), article.getTitle(),
+								article.getRegDate().split(" ")[1], article.getHit());
+					} else {
+						System.out.printf("  %4d  /   %s    /     %s   /   %d\n", article.getId(), article.getTitle(),
+								article.getRegDate().split(" ")[0], article.getHit());
+					}
+
 				}
 
 			} else if (cmd.startsWith("article detail")) {
@@ -164,9 +186,9 @@ public class Main {
 
 	private static void makeTestData() {
 		System.out.println("테스트를 위한 데이터를 생성합니다.");
-		articles.add(new Article(1, "2023-12-12 12:12:12", Util.getNowDate_TimeStr(), "제목1", "내용1", 11));
+		articles.add(new Article(1, "2023-12-12 12:12:12", Util.getNowDate_TimeStr(), "제목123", "내용1", 11));
 		articles.add(new Article(2, "2024-01-01 12:12:12", Util.getNowDate_TimeStr(), "제목2", "내용2", 22));
-		articles.add(new Article(3, Util.getNowDate_TimeStr(), Util.getNowDate_TimeStr(), "제목3", "내용3", 33));
+		articles.add(new Article(3, Util.getNowDate_TimeStr(), Util.getNowDate_TimeStr(), "제목1233", "내용3", 33));
 	}
 }
 
