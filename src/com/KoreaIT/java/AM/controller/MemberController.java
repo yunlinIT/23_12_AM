@@ -1,23 +1,38 @@
 package com.KoreaIT.java.AM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.AM.dto.Member;
 import com.KoreaIT.java.AM.util.Util;
 
-public class MemberController {
-	List<Member> members;
+public class MemberController extends Controller {
+	private List<Member> members;
 	private Scanner sc;
+	private String cmd;
 
-	public MemberController(Scanner sc, List<Member> members) {
-		this.members = members;
+	public MemberController(Scanner sc) {
+		this.members = new ArrayList<>();
 		this.sc = sc;
+	}
+
+	public void doAction(String actionMethodName, String cmd) {
+		this.cmd = cmd;
+
+		switch (actionMethodName) {
+		case "join":
+			doJoin();
+			break;
+		default:
+			System.out.println("명령어 확인해 (actionMethodName 오류)5");
+			break;
+		}
 	}
 
 	int lastMemberId = 0;
 
-	public void doJoin() {
+	private void doJoin() {
 		System.out.println("==회원 가입==");
 		int id = lastMemberId + 1;
 		String regDate = Util.getNowDate_TimeStr();
