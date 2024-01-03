@@ -19,6 +19,7 @@ public class App {
 		Controller controller = null;
 
 		articleController.makeTestData();
+		memberController.makeTestData();
 
 		while (true) {
 			System.out.print("명령어 > ");
