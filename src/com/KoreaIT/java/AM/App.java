@@ -54,6 +54,30 @@ public class App {
 				continue;
 			}
 
+			String forLoginCheck = controllerName + "/" + actionMethodName;
+
+			switch (forLoginCheck) {
+			case "article/write":
+			case "article/modify":
+			case "article/delete":
+			case "member/logout":
+				if (Controller.isLogined() == false) {
+					System.out.println("로그인 하고 이용해");
+					continue;
+				}
+				break;
+			}
+			
+			switch (forLoginCheck) {
+			case "member/login":
+			case "member/join":
+				if (Controller.isLogined()) {
+					System.out.println("로그아웃 하고 이용해");
+					continue;
+				}
+				break;
+			}
+
 			controller.doAction(actionMethodName, cmd);
 		}
 

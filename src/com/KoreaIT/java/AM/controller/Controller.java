@@ -8,7 +8,7 @@ public abstract class Controller {
 
 	public abstract void doAction(String actionMethodName, String cmd);
 
-	public boolean isLogined() {
+	public static boolean isLogined() {
 		return loginedMember != null;
 	}
 }
