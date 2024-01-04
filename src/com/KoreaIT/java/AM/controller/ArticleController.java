@@ -34,7 +34,6 @@ public class ArticleController extends Controller {
 			showDetail();
 			break;
 		case "modify":
-
 			doModify();
 			break;
 		case "delete":
@@ -157,6 +156,12 @@ public class ArticleController extends Controller {
 			System.out.printf("%d번 게시글은 없습니다\n", id);
 			return;
 		}
+
+		if (foundArticle.getMemberId() != loginedMember.getId()) {
+			System.out.println("권한 없음");
+			return;
+		}
+
 		articles.remove(foundArticle);
 		System.out.println(id + "번 글이 삭제되었습니다.");
 
@@ -178,6 +183,11 @@ public class ArticleController extends Controller {
 
 		if (foundArticle == null) {
 			System.out.printf("%d번 게시글은 없습니다\n", id);
+			return;
+		}
+
+		if (foundArticle.getMemberId() != loginedMember.getId()) {
+			System.out.println("권한 없음");
 			return;
 		}
 
