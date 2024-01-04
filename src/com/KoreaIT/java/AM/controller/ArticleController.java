@@ -13,6 +13,8 @@ public class ArticleController extends Controller {
 	private Scanner sc;
 	private String cmd;
 
+	int lastArticleId = 3;
+
 	public ArticleController(Scanner sc) {
 		this.articles = new ArrayList<>();
 		this.sc = sc;
@@ -23,6 +25,10 @@ public class ArticleController extends Controller {
 
 		switch (actionMethodName) {
 		case "write":
+			if (isLogined() == false) {
+				System.out.println("로그인 하고 이용해");
+				break;
+			}
 			doWrite();
 			break;
 		case "list":
@@ -43,9 +49,8 @@ public class ArticleController extends Controller {
 		}
 	}
 
-	int lastArticleId = 3;
-
 	private void doWrite() {
+
 		System.out.println("==게시글 작성==");
 		int id = lastArticleId + 1;
 		String regDate = Util.getNowDate_TimeStr();
@@ -200,7 +205,7 @@ public class ArticleController extends Controller {
 	}
 
 	public void makeTestData() {
-		System.out.println("테스트를 위한 데이터를 생성합니다.");
+		System.out.println("테스트를 위한 게시글 데이터를 생성합니다.");
 		articles.add(new Article(1, "2023-12-12 12:12:12", Util.getNowDate_TimeStr(), "제목123", "내용1", 11));
 		articles.add(new Article(2, "2024-01-01 12:12:12", Util.getNowDate_TimeStr(), "제목2", "내용2", 22));
 		articles.add(new Article(3, Util.getNowDate_TimeStr(), Util.getNowDate_TimeStr(), "제목1233", "내용3", 33));
