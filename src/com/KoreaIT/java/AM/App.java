@@ -67,7 +67,7 @@ public class App {
 				}
 				break;
 			}
-			
+
 			switch (forLoginCheck) {
 			case "member/login":
 			case "member/join":
