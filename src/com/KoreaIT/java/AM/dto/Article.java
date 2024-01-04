@@ -1,7 +1,5 @@
 package com.KoreaIT.java.AM.dto;
 
-import com.KoreaIT.java.AM.util.Util;
-
 public class Article extends Dto {
 
 	private String updateDate;
@@ -25,16 +23,6 @@ public class Article extends Dto {
 		this.title = title;
 		this.body = body;
 		this.hit = hit;
-	}
-
-	public void update(String newTitle, String newBody) {
-		this.setUpdateDate(Util.getNowDate_TimeStr());
-		this.setTitle(newTitle);
-		this.setBody(newBody);
-	}
-
-	public void increaseHit() {
-		this.hit++;
 	}
 
 	public int getMemberId() {
@@ -92,5 +80,4 @@ public class Article extends Dto {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
-
 }
